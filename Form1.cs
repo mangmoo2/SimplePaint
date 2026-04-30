@@ -20,6 +20,8 @@ namespace SimplePaint
         private Point startPoint;            // 마우스 클릭 시작 지점
         private Point endPoint;              // 마우스 이동/종료 지점
 
+        private double zoomRatio = 1.0; // 1.0 = 100%
+
         // 초기화 (생성자)
         public Form1()
         {
@@ -80,25 +82,31 @@ namespace SimplePaint
         private void picCanvas_MouseDown(object sender, MouseEventArgs e)
         {
             isDrawing = true;
-            startPoint = e.Location;
+            // 시작점 저장
+            startPoint = new Point((int)(e.X / zoomRatio), (int)(e.Y / zoomRatio));
+            endPoint = startPoint; // 초기화 시 시작점과 끝점을 같게 설정
         }
+
         private void picCanvas_MouseMove(object sender, MouseEventArgs e)
         {
             if (!isDrawing) return;
 
-            endPoint = e.Location;
-            picCanvas.Invalidate(); // Paint 이벤트를 발생시켜 화면을 다시 그립니다.
+            // 여기가 중요! startPoint가 아니라 endPoint를 업데이트해야 합니다.
+            endPoint = new Point((int)(e.X / zoomRatio), (int)(e.Y / zoomRatio));
+            picCanvas.Invalidate();
         }
+
         private void picCanvas_MouseUp(object sender, MouseEventArgs e)
         {
             if (!isDrawing) return;
 
             isDrawing = false;
-            endPoint = e.Location;
+            // 여기도 endPoint를 업데이트해야 합니다.
+            endPoint = new Point((int)(e.X / zoomRatio), (int)(e.Y / zoomRatio));
 
             // 비트맵에 실제로 그리기
             DrawShape(canvasGraphics, new Pen(currentColor, currentLineWidth));
-            picCanvas.Image = canvasBitmap; // 업데이트된 비트맵 반영
+            picCanvas.Image = canvasBitmap;
         }
         // 실제 그리기 로직
         private void DrawShape(Graphics g, Pen pen) //실제 그리기 
@@ -183,6 +191,65 @@ namespace SimplePaint
                         MessageBox.Show("저장 중 오류가 발생했습니다: " + ex.Message);
                     }
                 }
+            }
+        }
+
+        private void btnOpenFile_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp";
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    // 1. 파일에서 원본 이미지 로드
+                    Image originalImage = Image.FromFile(openFileDialog.FileName);
+
+                    // 2. 이미지 크기에 맞춰 새로운 비트맵과 캔버스 생성
+                    canvasBitmap = new Bitmap(originalImage.Width, originalImage.Height);
+                    canvasGraphics = Graphics.FromImage(canvasBitmap);
+
+                    // 3. 불러온 이미지를 캔버스에 그리기
+                    canvasGraphics.DrawImage(originalImage, 0, 0, originalImage.Width, originalImage.Height);
+
+                    // 4. PictureBox 설정 업데이트
+                    picCanvas.Image = canvasBitmap;
+                    picCanvas.Size = canvasBitmap.Size; // 이미지 크기에 맞춰 컨트롤 크기 조정 (스크롤 생성됨)
+
+                    originalImage.Dispose();
+                    zoomRatio = 1.0; // 확대 비율 초기화
+                }
+            }
+        }
+
+        // 확대/축소 적용 함수
+        // 확대 버튼 (+)
+        private void btnZoomIn_Click(object sender, EventArgs e)
+        {
+            zoomRatio += 0.2; // 20%씩 확대
+            ApplyZoom();
+        }
+
+        // 축소 버튼 (-)
+        private void btnZoomOut_Click(object sender, EventArgs e)
+        {
+            if (zoomRatio > 0.2) // 너무 작아지면 안 되므로 최소 20%까지만
+            {
+                zoomRatio -= 0.2; // 20%씩 축소
+                ApplyZoom();
+            }
+        }
+
+        // 실제로 PictureBox 크기를 조절하는 함수
+        private void ApplyZoom()
+        {
+            if (canvasBitmap != null)
+            {
+                // 1. PictureBox의 크기를 비율에 맞춰 계산
+                picCanvas.Width = (int)(canvasBitmap.Width * zoomRatio);
+                picCanvas.Height = (int)(canvasBitmap.Height * zoomRatio);
+
+                // 2. 이미지가 PictureBox 크기에 꽉 차도록 설정
+                picCanvas.SizeMode = PictureBoxSizeMode.StretchImage;
             }
         }
     }

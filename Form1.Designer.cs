@@ -40,13 +40,15 @@
             btnOpenFile = new Button();
             btnSaveFile = new Button();
             picCanvas = new PictureBox();
-            panel1 = new Panel();
+            pnlScroll = new Panel();
+            btnZoomIn = new Button();
+            btnZoomOut = new Button();
             GroupBox.SuspendLayout();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)trbLineWidth).BeginInit();
             ((System.ComponentModel.ISupportInitialize)picCanvas).BeginInit();
-            panel1.SuspendLayout();
+            pnlScroll.SuspendLayout();
             SuspendLayout();
             // 
             // lblAppName
@@ -164,6 +166,7 @@
             btnOpenFile.TabIndex = 5;
             btnOpenFile.Text = "열기";
             btnOpenFile.UseVisualStyleBackColor = false;
+            btnOpenFile.Click += btnOpenFile_Click;
             // 
             // btnSaveFile
             // 
@@ -180,9 +183,10 @@
             // picCanvas
             // 
             picCanvas.BackColor = Color.White;
-            picCanvas.Location = new Point(-40, -3);
+            picCanvas.Location = new Point(0, 3);
             picCanvas.Name = "picCanvas";
-            picCanvas.Size = new Size(651, 284);
+            picCanvas.Size = new Size(611, 287);
+            picCanvas.SizeMode = PictureBoxSizeMode.AutoSize;
             picCanvas.TabIndex = 7;
             picCanvas.TabStop = false;
             picCanvas.Click += picCanvas_Click;
@@ -191,13 +195,36 @@
             picCanvas.MouseMove += picCanvas_MouseMove;
             picCanvas.MouseUp += picCanvas_MouseUp;
             // 
-            // panel1
+            // pnlScroll
             // 
-            panel1.Controls.Add(picCanvas);
-            panel1.Location = new Point(12, 153);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(614, 284);
-            panel1.TabIndex = 8;
+            pnlScroll.AutoScroll = true;
+            pnlScroll.Controls.Add(picCanvas);
+            pnlScroll.Location = new Point(12, 153);
+            pnlScroll.Name = "pnlScroll";
+            pnlScroll.Size = new Size(614, 284);
+            pnlScroll.TabIndex = 8;
+            // 
+            // btnZoomIn
+            // 
+            btnZoomIn.Font = new Font("맑은 고딕", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 129);
+            btnZoomIn.Location = new Point(486, 18);
+            btnZoomIn.Name = "btnZoomIn";
+            btnZoomIn.Size = new Size(47, 45);
+            btnZoomIn.TabIndex = 9;
+            btnZoomIn.Text = "+";
+            btnZoomIn.UseVisualStyleBackColor = true;
+            btnZoomIn.Click += btnZoomIn_Click;
+            // 
+            // btnZoomOut
+            // 
+            btnZoomOut.Font = new Font("맑은 고딕", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 129);
+            btnZoomOut.Location = new Point(539, 18);
+            btnZoomOut.Name = "btnZoomOut";
+            btnZoomOut.Size = new Size(47, 45);
+            btnZoomOut.TabIndex = 10;
+            btnZoomOut.Text = "-";
+            btnZoomOut.UseVisualStyleBackColor = true;
+            btnZoomOut.Click += btnZoomOut_Click;
             // 
             // Form1
             // 
@@ -205,7 +232,9 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.MistyRose;
             ClientSize = new Size(625, 437);
-            Controls.Add(panel1);
+            Controls.Add(btnZoomOut);
+            Controls.Add(btnZoomIn);
+            Controls.Add(pnlScroll);
             Controls.Add(btnSaveFile);
             Controls.Add(btnOpenFile);
             Controls.Add(groupBox2);
@@ -220,7 +249,8 @@
             groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)trbLineWidth).EndInit();
             ((System.ComponentModel.ISupportInitialize)picCanvas).EndInit();
-            panel1.ResumeLayout(false);
+            pnlScroll.ResumeLayout(false);
+            pnlScroll.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -239,6 +269,8 @@
         private Button btnOpenFile;
         private Button btnSaveFile;
         private PictureBox picCanvas;
-        private Panel panel1;
+        private Panel pnlScroll;
+        private Button btnZoomIn;
+        private Button btnZoomOut;
     }
 }
