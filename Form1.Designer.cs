@@ -30,12 +30,12 @@
         {
             lblAppName = new Label();
             GroupBox = new GroupBox();
-            groupBox1 = new GroupBox();
-            groupBox2 = new GroupBox();
-            btnLine = new Button();
-            btnRectangle = new Button();
             btnCircle = new Button();
+            btnRectangle = new Button();
+            btnLine = new Button();
+            groupBox1 = new GroupBox();
             cmbColor = new ComboBox();
+            groupBox2 = new GroupBox();
             trbLineWidth = new TrackBar();
             btnOpenFile = new Button();
             btnSaveFile = new Button();
@@ -72,28 +72,30 @@
             GroupBox.TabStop = false;
             GroupBox.Text = "도형선택";
             // 
-            // groupBox1
+            // btnCircle
             // 
-            groupBox1.Controls.Add(cmbColor);
-            groupBox1.Font = new Font("맑은 고딕", 9F, FontStyle.Bold, GraphicsUnit.Point, 129);
-            groupBox1.Location = new Point(236, 57);
-            groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(107, 90);
-            groupBox1.TabIndex = 2;
-            groupBox1.TabStop = false;
-            groupBox1.Text = "색 선택";
+            btnCircle.Image = Properties.Resources.스크린샷_2026_04_30_093228;
+            btnCircle.ImageAlign = ContentAlignment.TopCenter;
+            btnCircle.Location = new Point(146, 22);
+            btnCircle.Name = "btnCircle";
+            btnCircle.Size = new Size(64, 62);
+            btnCircle.TabIndex = 2;
+            btnCircle.Text = "원";
+            btnCircle.TextAlign = ContentAlignment.BottomCenter;
+            btnCircle.UseVisualStyleBackColor = true;
+            btnCircle.Click += btnCircle_Click;
             // 
-            // groupBox2
+            // btnRectangle
             // 
-            groupBox2.Controls.Add(trbLineWidth);
-            groupBox2.Font = new Font("맑은 고딕", 9F, FontStyle.Bold, GraphicsUnit.Point, 129);
-            groupBox2.Location = new Point(349, 57);
-            groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(131, 90);
-            groupBox2.TabIndex = 3;
-            groupBox2.TabStop = false;
-            groupBox2.Text = "선 두께";
-            groupBox2.Enter += groupBox2_Enter;
+            btnRectangle.Image = Properties.Resources.스크린샷_2026_04_30_093223;
+            btnRectangle.Location = new Point(76, 22);
+            btnRectangle.Name = "btnRectangle";
+            btnRectangle.Size = new Size(64, 62);
+            btnRectangle.TabIndex = 1;
+            btnRectangle.Text = "사각형";
+            btnRectangle.TextAlign = ContentAlignment.BottomCenter;
+            btnRectangle.UseVisualStyleBackColor = true;
+            btnRectangle.Click += btnRectangle_Click;
             // 
             // btnLine
             // 
@@ -107,43 +109,48 @@
             btnLine.UseVisualStyleBackColor = true;
             btnLine.Click += btnLine_Click;
             // 
-            // btnRectangle
+            // groupBox1
             // 
-            btnRectangle.Image = Properties.Resources.스크린샷_2026_04_30_093223;
-            btnRectangle.Location = new Point(76, 22);
-            btnRectangle.Name = "btnRectangle";
-            btnRectangle.Size = new Size(64, 62);
-            btnRectangle.TabIndex = 1;
-            btnRectangle.Text = "사각형";
-            btnRectangle.TextAlign = ContentAlignment.BottomCenter;
-            btnRectangle.UseVisualStyleBackColor = true;
-            // 
-            // btnCircle
-            // 
-            btnCircle.Image = Properties.Resources.스크린샷_2026_04_30_093228;
-            btnCircle.ImageAlign = ContentAlignment.TopCenter;
-            btnCircle.Location = new Point(146, 22);
-            btnCircle.Name = "btnCircle";
-            btnCircle.Size = new Size(64, 62);
-            btnCircle.TabIndex = 2;
-            btnCircle.Text = "원";
-            btnCircle.TextAlign = ContentAlignment.BottomCenter;
-            btnCircle.UseVisualStyleBackColor = true;
+            groupBox1.Controls.Add(cmbColor);
+            groupBox1.Font = new Font("맑은 고딕", 9F, FontStyle.Bold, GraphicsUnit.Point, 129);
+            groupBox1.Location = new Point(236, 57);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(107, 90);
+            groupBox1.TabIndex = 2;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "색 선택";
             // 
             // cmbColor
             // 
             cmbColor.FormattingEnabled = true;
+            cmbColor.Items.AddRange(new object[] { "Black", "Red", "Blue", "Green" });
             cmbColor.Location = new Point(6, 43);
             cmbColor.Name = "cmbColor";
             cmbColor.Size = new Size(95, 23);
             cmbColor.TabIndex = 4;
+            cmbColor.SelectedIndexChanged += cmbColor_SelectedIndexChanged;
+            // 
+            // groupBox2
+            // 
+            groupBox2.Controls.Add(trbLineWidth);
+            groupBox2.Font = new Font("맑은 고딕", 9F, FontStyle.Bold, GraphicsUnit.Point, 129);
+            groupBox2.Location = new Point(349, 57);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Size = new Size(131, 90);
+            groupBox2.TabIndex = 3;
+            groupBox2.TabStop = false;
+            groupBox2.Text = "선 두께";
+            groupBox2.Enter += groupBox2_Enter;
             // 
             // trbLineWidth
             // 
             trbLineWidth.Location = new Point(6, 45);
+            trbLineWidth.Minimum = 1;
             trbLineWidth.Name = "trbLineWidth";
             trbLineWidth.Size = new Size(119, 45);
             trbLineWidth.TabIndex = 4;
+            trbLineWidth.Value = 2;
+            trbLineWidth.ValueChanged += trbLineWidth_ValueChanged;
             // 
             // btnOpenFile
             // 
@@ -175,6 +182,10 @@
             picCanvas.Size = new Size(602, 252);
             picCanvas.TabIndex = 7;
             picCanvas.TabStop = false;
+            picCanvas.Paint += picCanvas_Paint;
+            picCanvas.MouseDown += picCanvas_MouseDown;
+            picCanvas.MouseMove += picCanvas_MouseMove;
+            picCanvas.MouseUp += picCanvas_MouseUp;
             // 
             // Form1
             // 
