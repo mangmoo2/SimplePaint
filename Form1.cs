@@ -101,7 +101,7 @@ namespace SimplePaint
             picCanvas.Image = canvasBitmap; // 업데이트된 비트맵 반영
         }
         // 실제 그리기 로직
-        private void DrawShape(Graphics g, Pen pen)
+        private void DrawShape(Graphics g, Pen pen) //실제 그리기 
         {
             switch (currentTool)
             {
@@ -118,7 +118,7 @@ namespace SimplePaint
         }
 
         // 두 점 사이의 좌표를 계산해 사각형 영역을 반환
-        private Rectangle GetRectangle(Point p1, Point p2)
+        private Rectangle GetRectangle(Point p1, Point p2) //싲가점,종점계산,
         {
             return new Rectangle(
                 Math.Min(p1.X, p2.X),
@@ -126,7 +126,7 @@ namespace SimplePaint
                 Math.Abs(p1.X - p2.X),
                 Math.Abs(p1.Y - p2.Y));
         }
-        private void picCanvas_Paint(object sender, PaintEventArgs e)
+        private void picCanvas_Paint(object sender, PaintEventArgs e) //미리보기
         {
             if (isDrawing)
             {
@@ -135,6 +135,11 @@ namespace SimplePaint
                 previewPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
                 DrawShape(e.Graphics, previewPen);
             }
+        }
+
+        private void picCanvas_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

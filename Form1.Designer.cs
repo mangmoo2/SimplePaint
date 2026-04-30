@@ -179,9 +179,10 @@
             picCanvas.BackColor = Color.White;
             picCanvas.Location = new Point(12, 153);
             picCanvas.Name = "picCanvas";
-            picCanvas.Size = new Size(602, 252);
+            picCanvas.Size = new Size(602, 280);
             picCanvas.TabIndex = 7;
             picCanvas.TabStop = false;
+            picCanvas.Click += picCanvas_Click;
             picCanvas.Paint += picCanvas_Paint;
             picCanvas.MouseDown += picCanvas_MouseDown;
             picCanvas.MouseMove += picCanvas_MouseMove;
@@ -192,7 +193,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.MistyRose;
-            ClientSize = new Size(625, 417);
+            ClientSize = new Size(625, 437);
             Controls.Add(picCanvas);
             Controls.Add(btnSaveFile);
             Controls.Add(btnOpenFile);
