@@ -141,5 +141,49 @@ namespace SimplePaint
         {
 
         }
+
+        private void btnSaveFile_Click(object sender, EventArgs e)
+        {
+            using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+            {
+                // 2. 3가지 포맷(.png, .jpg, .bmp) 필터 설정
+                saveFileDialog.Title = "그림 저장하기";
+                saveFileDialog.Filter = "PNG Image|*.png|JPeg Image|*.jpg|Bitmap Image|*.bmp";
+
+                // 사용자가 파일명을 입력하고 '확인'을 눌렀을 때 실행
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        // 3. 파일 확장자에 맞춰 포맷 결정 및 저장
+                        string extension = System.IO.Path.GetExtension(saveFileDialog.FileName).ToLower();
+                        ImageFormat format = ImageFormat.Png; // 기본값
+
+                        switch (extension)
+                        {
+                            case ".jpg":
+                            case ".jpeg":
+                                format = ImageFormat.Jpeg;
+                                break;
+                            case ".bmp":
+                                format = ImageFormat.Bmp;
+                                break;
+                            case ".png":
+                            default:
+                                format = ImageFormat.Png;
+                                break;
+                        }
+
+                        // 현재 도화지(canvasBitmap)를 선택한 형식으로 저장
+                        canvasBitmap.Save(saveFileDialog.FileName, format);
+                        MessageBox.Show("이미지가 정상적으로 저장되었습니다!", "저장 완료");
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("저장 중 오류가 발생했습니다: " + ex.Message);
+                    }
+                }
+            }
+        }
     }
 }
